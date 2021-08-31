@@ -1,5 +1,3 @@
-
-
 # Decoding Forgotten Runes Wizard's Cult from on-chain data
 
 
