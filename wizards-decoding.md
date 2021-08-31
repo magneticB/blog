@@ -7,7 +7,7 @@ This guide is based on a script from project founder *dotta*.  If you just want 
 
 ***
 
-####Decoder Crystal
+**Decoder Crystal**
 
 There is a specific assest published by FRWC called the 'Decoding Crystal'.  You can view it [on OpenSea here](https://opensea.io/assets/0x2d00d68bf8bc14d139b4dcea5fb7ce0a42e09c86/0).  As the name implies this is our starting point for generating Wizards.
 
@@ -28,7 +28,7 @@ You might need to install some dependencies (like jq) to run the script.  Using 
 
 ***
 
-####Compiling and running the script
+**Compiling and running the script**
 
 The decoder.ts script runs with [node.js](https://nodejs.org/) and requires some dependencies.  Make sure node.js is already installed and path set correctly before trying this (I'm using node v14.17).
 
@@ -47,11 +47,11 @@ The decoder.ts script runs with [node.js](https://nodejs.org/) and requires some
 This should run without errors and you shound find your wizards created inside a 'wizards' sub directory.  You can change the ids passed in the 'wizards' argument to any of the 10,000 wizards.
 
 *** 
-####Script details
+**Script details**
 
 There are three main functions in the script which we will talk about.  There is a 'provenance' variable that stores several ethereum transaction hashes.  These transactions store the Wizards parts image and trait data inside the transaction input data.  Same method as how the decoder source was stored just using different transations.
 
-#####decodeParts()
+***decodeParts()***
 This function uses the [Ethers](https://ethers.org/) project to download the 'provenance.img' transation.  The [transaction input data](https://etherscan.io/tx/0xbb6413bd70bae87b724c30ba9e46224fa63629709e7ccfe60a39cc14aa41013e) for this transaction (found in provenance.img) stores a PNG image on-chain which is then extracted and saved to an image file locally.  You can see the PNG header if you switch the 'View Input As' to UTF-8 on Etherscan.
 
 The image file is saved to 'forgotten-runes-traits.png' inside the 'wizards' directory.  Open it up and you will see the building blocks of every wizard.  In a later step these are composed together to generate each wizard.
