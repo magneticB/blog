@@ -49,10 +49,10 @@ This should run without errors and you shound find your wizards created inside a
 *** 
 ####Script details
 
-There are three main functions in the script which we will talk about.  There is a 'provenance' variable that stores several ethereum transaction hashes.  These transactions store the Wizards image and trait data inside the transaction input data.  Same method as how the decoder source was stored just using different transations.
+There are three main functions in the script which we will talk about.  There is a 'provenance' variable that stores several ethereum transaction hashes.  These transactions store the Wizards parts image and trait data inside the transaction input data.  Same method as how the decoder source was stored just using different transations.
 
 #####decodeParts()
-This function uses the [Ethers](https://ethers.org/) project to download the 'provenance.img' transation.  The [transaction input data](https://etherscan.io/tx/0xbb6413bd70bae87b724c30ba9e46224fa63629709e7ccfe60a39cc14aa41013e) stores a PNG image on-chain which is then extracted and saved to an image file locally.  You can see the PNG header if you switch the 'View Input As' to UTF-8 on Etherscan.
+This function uses the [Ethers](https://ethers.org/) project to download the 'provenance.img' transation.  The [transaction input data](https://etherscan.io/tx/0xbb6413bd70bae87b724c30ba9e46224fa63629709e7ccfe60a39cc14aa41013e) for this transaction (found in provenance.img) stores a PNG image on-chain which is then extracted and saved to an image file locally.  You can see the PNG header if you switch the 'View Input As' to UTF-8 on Etherscan.
 
 The image file is saved to 'forgotten-runes-traits.png' inside the 'wizards' directory.  Open it up and you will see the building blocks of every wizard.  In a later step these are composed together to generate each wizard.
 
