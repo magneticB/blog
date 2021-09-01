@@ -1,6 +1,5 @@
 # Decoding Forgotten Runes Wizard's Cult from on-chain data
 
-
 Forgotten Runes Wizard's Cult (FRWC) is an NFT project where the data and code used to generate Wizards is stored on-chain directly in the Ethereum blockchain.  This is different from a lot of other NFT projects where usually the  NFT image is stored off-chain in some kind of external filestore (like IPFS).  FRWC allows Wizard images to be generated 100% from code and data stored on-chain.  Wizard NFT images are also stored in IPFS for conviniance (contract can be used to generate this URL) but are not required.
 
 This guide is based on a script from project founder *dotta*.  If you just want [the script](https://gist.github.com/cryppadotta/375dee1903598f5163e2c1d7d3ce9db9) then feel free to jump ahead.  I will try and explain how the script works and the context around it in this guide.
@@ -89,3 +88,5 @@ You might notice there's a transation hash in the comment on the last line.  Usi
 
 *** 
 GN Wizards!
+
+![Wizard 7934](assets/wizard-7934-enchanter-apollo-of-the-mount.png)
