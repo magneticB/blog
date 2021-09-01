@@ -49,13 +49,43 @@ This should run without errors and you shound find your wizards created inside a
 *** 
 **Script details**
 
-There are three main functions in the script which we will talk about.  There is a 'provenance' variable that stores several ethereum transaction hashes.  These transactions store the Wizards parts image and trait data inside the transaction input data.  Same method as how the decoder source was stored just using different transations.
+There are three main functions in the script which we will talk about.  Each one performs a different step that is nessacary to generate a wizard image from on-chain data.  You'll need to follow along with the source code.
+
+First let's look at the 'provenance' variable. This object stores several ethereum transaction hashes that contain the base data.  These transactions store:
+>1. All wizard parts image ('provenance.img') which contains basically a sprite map of base images.  This is the only image data used to generate wizards.
+>2. Trait data ('provenance.traits') which contains (you gussed it) trait data for each wizard.
+
+The data for parts and traits is stored inside the transactions input data.  Same method as how the decoder source was stored but just using different transations.  This data (and the source code) is all that's needed to generate all 10k wizards.
 
 ***decodeParts()***
 
-This function uses the [Ethers](https://ethers.org/) project to download the 'provenance.img' transation.  The [transaction input data](https://etherscan.io/tx/0xbb6413bd70bae87b724c30ba9e46224fa63629709e7ccfe60a39cc14aa41013e) for this transaction (found in provenance.img) stores a PNG image on-chain which is then extracted and saved to an image file locally.  You can see the PNG header if you switch the 'View Input As' to UTF-8 on Etherscan.
+This function uses the [Ethers](https://ethers.org/) project to download the 'provenance.img' transation.  The [transaction input data](https://etherscan.io/tx/0xbb6413bd70bae87b724c30ba9e46224fa63629709e7ccfe60a39cc14aa41013e) for this transaction contains a hex encoded PNG image on-chain, which is then extracted and saved to an image file locally.  You can see the PNG header in the on-chain data if you switch the 'View Input As' to UTF-8 under Input Data on Etherscan.
 
-The image file is saved to 'forgotten-runes-traits.png' inside the 'wizards' directory.  Open it up and you will see the building blocks of every wizard.  In a later step these are composed together to generate each wizard.
+The image file is thne saved to 'forgotten-runes-traits.png' inside the 'wizards' directory.  Open it up (after running the script) and you will see the building blocks of every wizard.  In a later step these are composed together to generate each wizard.
 
+***decodeTraits()***
 
-//Todo
+Trait transations hashes (from 'provenance.traits' array) are downloaded with Ethers and the input data decoded.  The data is stored on-chain as hex encoded BSON (Binary Json) in the transaction input data.  You can see in the code the input data is converted from hex to binary, and then deserialized from BSON to JSON using [bson-js](https://github.com/mongodb/js-bson).  This happens for each trait transation (there's ten of them) and the results of written to a 'traits' array which is used later for generating a specific wizard.  A file 'traits.txt' is also written in wizards directory.
+
+You can also find the transaction hashes on Etherscan, decode the hex input data (with xxd), and then deserialize from BSON to JSON if you want to do this manually.
+
+Take a look at the 'traits.txt' file and you can see each of the 10k wizards has a list of integer properties.  These properties define a wizard's background, body, familiar, head, prop, and rune.  The number of each property maps to a specific sprite in the parts image - which is how the complete wizard image is composed in the next step.
+
+***saveWizard()***
+
+This is where trait and image part data are combined to generate a wizard image.  Wizards are generated one at a time, and the trait data for that specific wizard is passed into the function.  The image processing libary [Sharp](https://sharp.pixelplumbing.com/) is used for image manipulation.
+
+The wizard's six traits are iterated over and processed separetly.  The integer id of a trait is mapped to four boundies that define a box in the sprite map specific for that trait.  The image data inside of this box is then extracted and stored in an buffer.  This happens for all six traits until you have an array of buffers containing the image for each trait.
+
+The trait id '7777' is skipped - I assume this means that the trait is not defined (e.g. the wizard has no rune or prop).
+
+Next the trait buffers are passed into a 'composite' function in Sharp that combines and layers them all on top of each other.  Because the sprite map includes alpha transparency and each trait image is the same size, they are combined without any data loss.  The result is the complete wizard image!
+
+Wizard's image is then written to it's own PNG file, and meta data written to a CSV file.
+
+***Affinity data***
+
+You might notice there's a transation hash in the comment on the last line.  Using the same methods as above you can download that transation and decode the input data.  I believe it contains affinity data for each trait id.
+
+*** 
+GN Wizards!
