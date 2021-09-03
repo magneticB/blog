@@ -17,7 +17,7 @@ The decoder code is stored inside the the second transaction on the contract (0x
 You'll notice that the first few characters of the input data do not covert from hex to UTF-8 into anything readable.  Copy the source code starting from the first comment symbol '//' ignoring the first few characters. Save them into a 'decoder.ts' file using your favorite text editor.
 
 If you're following along with the script provided by *dotta* you'll notice the first line is creating the same decoder.ts file.  It's doing the same as thing we did manually above in these steps:
->1. Downloads the transaction data over HTTP (note the same transation id).  https://cloudflare-eth.com/ is used to get the data and return in JSON format.  Both https://cloudflare-eth.com/ and Etherscan are interfaces which get their data directly from the Ethereum blockchain.
+>1. Downloads the transaction data over HTTP (note the same transaction id).  https://cloudflare-eth.com/ is used to get the data and return in JSON format.  Both https://cloudflare-eth.com/ and Etherscan are interfaces which get their data directly from the Ethereum blockchain.
 >2. [jq](https://stedolan.github.io/jq/) then extracts the input data from the tranaction JSON response.  This is hex encoded.
 >3. cut removes the first few characters.
 >4. xxd converts the hex encoded data into binary
@@ -54,17 +54,17 @@ First let's look at the 'provenance' variable. This object stores several ethere
 >1. All wizard parts image ('provenance.img') which contains basically a sprite map of base images.  This is the only image data used to generate wizards.
 >2. Trait data ('provenance.traits') which contains (you gussed it) trait data for each wizard.
 
-The data for parts and traits is stored inside the transactions input data.  Same method as how the decoder source was stored but just using different transations.  This data (and the source code) is all that's needed to generate all 10k wizards.
+The data for parts and traits is stored inside the transactions input data.  Same method as how the decoder source was stored but just using different transactions.  This data (and the source code) is all that's needed to generate all 10k wizards.
 
 ***decodeParts()***
 
-This function uses the [Ethers](https://ethers.org/) project to download the 'provenance.img' transation.  The [transaction input data](https://etherscan.io/tx/0xbb6413bd70bae87b724c30ba9e46224fa63629709e7ccfe60a39cc14aa41013e) for this transaction contains a hex encoded PNG image on-chain, which is then extracted and saved to an image file locally.  You can see the PNG header in the on-chain data if you switch the 'View Input As' to UTF-8 under Input Data on Etherscan.
+This function uses the [Ethers](https://ethers.org/) project to download the 'provenance.img' transaction.  The [transaction input data](https://etherscan.io/tx/0xbb6413bd70bae87b724c30ba9e46224fa63629709e7ccfe60a39cc14aa41013e) for this transaction contains a hex encoded PNG image on-chain, which is then extracted and saved to an image file locally.  You can see the PNG header in the on-chain data if you switch the 'View Input As' to UTF-8 under Input Data on Etherscan.
 
-The image file is thne saved to 'forgotten-runes-traits.png' inside the 'wizards' directory.  Open it up (after running the script) and you will see the building blocks of every wizard.  In a later step these are composed together to generate each wizard.
+The image file is then saved to 'forgotten-runes-traits.png' inside the 'wizards' directory.  Open it up (after running the script) and you will see the building blocks of every wizard.  In a later step these are composed together to generate each wizard.
 
 ***decodeTraits()***
 
-Trait transations hashes (from 'provenance.traits' array) are downloaded with Ethers and the input data decoded.  The data is stored on-chain as hex encoded BSON (Binary Json) in the transaction input data.  You can see in the code the input data is converted from hex to binary, and then deserialized from BSON to JSON using [bson-js](https://github.com/mongodb/js-bson).  This happens for each trait transation (there's ten of them) and the results of written to a 'traits' array which is used later for generating a specific wizard.  A file 'traits.txt' is also written in wizards directory.
+Trait transactions hashes (from 'provenance.traits' array) are downloaded with Ethers and the input data decoded.  The data is stored on-chain as hex encoded BSON (Binary Json) in the transaction input data.  You can see in the code the input data is converted from hex to binary, and then deserialized from BSON to JSON using [bson-js](https://github.com/mongodb/js-bson).  This happens for each trait transaction (there's ten of them) and the results of written to a 'traits' array which is used later for generating a specific wizard.  A file 'traits.txt' is also written in wizards directory.
 
 You can also find the transaction hashes on Etherscan, decode the hex input data (with xxd), and then deserialize from BSON to JSON if you want to do this manually.
 
@@ -84,7 +84,7 @@ Wizard's image is then written to it's own PNG file, and meta data written to a 
 
 ***Affinity data***
 
-You might notice there's a transation hash in the comment on the last line.  Using the same methods as above you can download that transation and decode the input data.  I believe it contains affinity data for each trait id.
+You might notice there's a transaction hash in the comment on the last line.  Using the same methods as above you can download that transaction and decode the input data.  I believe it contains affinity data for each trait id.
 
 *** 
 GN Wizards!
