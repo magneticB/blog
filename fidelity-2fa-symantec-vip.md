@@ -40,7 +40,7 @@ Make a note of that credential you will need it later.
 Copy the text and modify the `VIP%20Access:VSMT123456` and `issuer=Symantec` parts so it looks like this:
 
 <pre>
-otpauth://totp/<b>your_fidelity_username</b>/?secret=B62TJYTHYEO5GEIHEODYHY77HFUK6ZEI&digits=6&algorithm=SHA1&<b>issuer=Fidelity</b>&period=30
+otpauth://totp/<b>your_fidelity_username</b>?secret=B62TJYTHYEO5GEIHEODYHY77HFUK6ZEI&digits=6&algorithm=SHA1&<b>issuer=Fidelity</b>&period=30
 </pre>
 
 This step is purely aesthetic to make sure it's labled correctly in your TOTP app.
